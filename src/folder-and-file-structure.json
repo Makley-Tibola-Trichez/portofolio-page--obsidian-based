@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "title": "Home"
+    },
+    {
+      "title": "Artigos",
+      "children": [
+        {
+          "title": "Criar"
+        },
+        {
+          "title": "Listar",
+          "children": [
+            {
+              "title": "TCC",
+              "children": [
+                {
+                  "title": "TCC 1"
+                },
+                {
+                  "title": "TCC 2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
