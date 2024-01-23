@@ -1,21 +1,17 @@
+'use client'
 import { PanelLeft, Search } from 'lucide-react';
 
-import { Button } from './@/components/ui/button';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from './@/components/ui/resizable';
-import PageTab from './components/PageTab/PageTab';
-import { FilesTree } from './components/treeView/TreeView';
-import { useGlobalContext } from './context/GlobalProvider';
+import treeView from '../folder-and-file-structure.json' with { type: 'json' }
 import Markdown from 'react-markdown';
-import { data as treeViewData } from './folder-and-file-structure.json' with { type: 'json' }
+import { Button } from '../@/components/ui/button';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '../@/components/ui/resizable';
+import PageTab from '../components/PageTab/PageTab';
+import { FilesTree } from '../components/treeView/TreeView';
+import { useGlobalContext } from '../context/GlobalProvider';
 
-function App() {
+export default function Home() {
   const { handleOpenFile, openedFiles, handleCloseFile, markdownContent, focusedFile,setFocusedFile } =
     useGlobalContext();
-
   return (
     <div className="bg-[#121212] text-[#b3b3b3] h-dvh">
       <ResizablePanelGroup direction="horizontal" className="">
@@ -32,7 +28,7 @@ function App() {
           </div>
           <div className="h-full bg-[#262626] p-4">
             <FilesTree
-              data={treeViewData}
+              data={treeView.data}
               onOpenFile={handleOpenFile}
             />
           </div>
@@ -40,15 +36,16 @@ function App() {
         <ResizableHandle className="bg-[#363636]" />
 
         <ResizablePanel defaultSize={100} minSize={10} className="bg-[#363636]">
-          {Array.from(openedFiles).map((key) => {
+          {Array.from(openedFiles).map((openedFile) => {
+
             return (
               <PageTab
-                key={`opened-file.${key}`}
-                isActive={focusedFile === key}
-                onClick={() => setFocusedFile(key)}
-                onClose={() => handleCloseFile(key)}
+                key={`opened-file.${openedFile}`}
+                isActive={focusedFile === openedFile}
+                onClick={() => setFocusedFile(openedFile)}
+                onClose={() => handleCloseFile(openedFile)}
               >
-                {key}
+                {openedFile}
               </PageTab>
             );
           })}
@@ -63,7 +60,6 @@ function App() {
   );
 }
 
-export default App;
 
 /**
  * Aba selecionada : #1e1e1e
