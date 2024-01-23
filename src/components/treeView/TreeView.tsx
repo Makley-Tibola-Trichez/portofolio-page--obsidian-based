@@ -1,3 +1,4 @@
+'use client';
 import { Fragment, useMemo, useState } from 'react';
 import { Button } from '../../@/components/ui/button';
 import { FilesTreeProps } from './TreeView.types';

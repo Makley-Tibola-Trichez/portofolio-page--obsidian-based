@@ -44,7 +44,10 @@ export default function PageTab({
               <Button
                 size="iconXs"
                 variant={'transparent'}
-                onClick={onClose}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose?.();
+                }}
                 className={clsx(
                   'invisible group-hover:visible',
                   isActive && 'visible'

@@ -1,57 +1,53 @@
+'use client';
 import { createContext, useContext, useState } from 'react';
+import { getFile } from './GlobalProvider.server';
 import {
   GlobalContextValues,
   GlobalProviderProps,
 } from './GlobalProvider.types';
-import { data  as treeViewData} from '../folder-and-file-structure.json' with { type: 'json' }
 const GlobalContext = createContext({} as GlobalContextValues);
 
 const _filesContentCache = new Map();
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [openedFiles, _setOpenedFiles] = useState<Set<string>>(new Set());
-  const [markdownContent, _setMarkdownContent] = useState<string >('');
+  const [markdownContent, _setMarkdownContent] = useState<string>('');
   const [focusedFile, setFocusedFile] = useState<string | undefined>();
 
-  const handleOpenFile = async (name: string) => {
-    _setOpenedFiles((c) => new Set(c.add(name)));
+  const _getFileContent = async (name: string): Promise<string> => {
     if (_filesContentCache.has(name)) {
-      const _text = _filesContentCache.get(name);
-      if (_text === markdownContent) return;
-      _setMarkdownContent(_text);
-      setFocusedFile(name);
-      return;
-    }
-    const _file = await fetch(`/markdown/${name}.md`);
-    let _text: string | null = await _file.text();
-
-    if (_text === markdownContent) return;
-    if (_text.includes('doctype')) {
-      _text = '';
+      return _filesContentCache.get(name);
     }
 
-    _filesContentCache.set(name, _text);
-    _setMarkdownContent(_text);
+    return getFile(name).catch(() => '');
+  };
+
+  const handleOpenFile = async (name: string) => {
+    const _openedFiles = new Set(openedFiles.add(name));
+    const _fileContent = await _getFileContent(name);
+
+    _setOpenedFiles(_openedFiles);
+    _setMarkdownContent(_fileContent);
     setFocusedFile(name);
   };
-  const handleCloseFile = (name: string) => {
+
+  const handleCloseFile = async (name: string) => {
     const _openedFiles = new Set(openedFiles);
+
     _openedFiles.delete(name);
+
+    const _openedFilesKeys = _openedFiles.keys();
+
+    let _nextFile = Array.from(_openedFilesKeys).at(-1);
+
     _setOpenedFiles(_openedFiles);
 
-    //get next file
-    const _nextFile = Array.from(_openedFiles)[0];
-    if (!_nextFile) {
-      const _firstContent = treeViewData.find((item) => !item.children );
-      if (!_firstContent) return;
-      
-      handleOpenFile(_firstContent.title);
-      return;
-    }
+    if (!_nextFile) return;
 
-    if (name === focusedFile) {
-      handleOpenFile(_nextFile);
-    }
+    const _fileContent = await _getFileContent(_nextFile);
+
+    _setMarkdownContent(_fileContent);
+    setFocusedFile(_nextFile);
   };
 
   return (
