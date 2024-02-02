@@ -1,12 +1,12 @@
-import clsx from 'clsx';
-import { X } from 'lucide-react';
-import { Button } from '../../@/components/ui/button';
+import clsx from "clsx";
+import { X } from "lucide-react";
+import { Button } from "../../@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../../@/components/ui/tooltip';
+} from "../../@/components/ui/tooltip";
 
 type PageTabProps = {
   children: React.ReactNode;
@@ -27,33 +27,37 @@ export default function PageTab({
         <TooltipTrigger>
           <div
             className={clsx(
-              'mt-2 rounded-t p-1 group',
-              isActive && 'bg-tab-active'
+              "mt-2 rounded-t p-1 group",
+              isActive && "bg-tab-active",
             )}
           >
             <div
               onAuxClick={onClose}
               className={clsx(
-                'rounded w-fit select-none flex hover:text-gray-300',
-                !isActive && 'text-gray-400 hover:bg-tab-hover',
-                isActive && 'text-gray-300'
+                "rounded w-fit select-none flex hover:text-gray-300",
+                !isActive && "text-gray-400 hover:bg-tab-hover",
+                isActive && "text-gray-300",
               )}
               onClick={() => onClick?.(!isActive)}
+              onKeyUp={() => onClick?.(!isActive)}
             >
               <div className="max-w-40 truncate px-2">{children}</div>
               <Button
+                asChild
                 size="iconXs"
-                variant={'transparent'}
+                variant={"transparent"}
                 onClick={(e) => {
                   e.stopPropagation();
                   onClose?.();
                 }}
                 className={clsx(
-                  'invisible group-hover:visible',
-                  isActive && 'visible'
+                  "invisible group-hover:visible",
+                  isActive && "visible",
                 )}
               >
-                <X size={14} />
+                <div>
+                  <X size={14} />
+                </div>
               </Button>
             </div>
           </div>

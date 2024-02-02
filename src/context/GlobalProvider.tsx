@@ -1,17 +1,20 @@
-'use client';
-import { createContext, useContext, useState } from 'react';
-import { getFile } from './GlobalProvider.server';
+"use client";
+import { createContext, useContext, useState } from "react";
+import { getFile } from "./GlobalProvider.server";
 import {
   GlobalContextValues,
   GlobalProviderProps,
-} from './GlobalProvider.types';
+} from "./GlobalProvider.types";
+
+import treeView from "../folder-and-file-structure.json" with { type: "json" };
+
 const GlobalContext = createContext({} as GlobalContextValues);
 
 const _filesContentCache = new Map();
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [openedFiles, _setOpenedFiles] = useState<Set<string>>(new Set());
-  const [markdownContent, _setMarkdownContent] = useState<string>('');
+  const [markdownContent, _setMarkdownContent] = useState<string>("");
   const [focusedFile, setFocusedFile] = useState<string | undefined>();
 
   const _getFileContent = async (name: string): Promise<string> => {
@@ -19,7 +22,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
       return _filesContentCache.get(name);
     }
 
-    return getFile(name).catch(() => '');
+    return getFile(name).catch(() => "");
   };
 
   const handleOpenFile = async (name: string) => {
@@ -40,11 +43,16 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 
     let _nextFile = Array.from(_openedFilesKeys).at(-1);
 
-    _setOpenedFiles(_openedFiles);
+    if (!_nextFile) {
+      _nextFile = treeView.data.find(({ initialPage }) => initialPage)?.title;
+    }
 
     if (!_nextFile) return;
 
+    _openedFiles.add(_nextFile);
+
     const _fileContent = await _getFileContent(_nextFile);
+    _setOpenedFiles(_openedFiles);
 
     _setMarkdownContent(_fileContent);
     setFocusedFile(_nextFile);
@@ -70,7 +78,7 @@ export const useGlobalContext = () => {
   const _context = useContext(GlobalContext);
 
   if (!Object.entries(_context).length) {
-    throw new Error('useGlobalContext must be used within a GlobalProvider');
+    throw new Error("useGlobalContext must be used within a GlobalProvider");
   }
 
   return _context;

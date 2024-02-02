@@ -1,11 +1,11 @@
-import { GlobalProvider } from '../context/GlobalProvider';
+import { GlobalProvider } from "../context/GlobalProvider";
 
-import '../styles/tailwind.css';
+import "../styles/tailwind.css";
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-BR">
       <body>
         <GlobalProvider>{children}</GlobalProvider>
       </body>

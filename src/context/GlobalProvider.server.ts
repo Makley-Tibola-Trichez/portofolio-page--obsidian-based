@@ -7,6 +7,6 @@ export async function getFile(name: string): Promise<string | never> {
 
     return _file.toString();
   } catch (error) {
-    throw new Error('File not found');
+    return Promise.reject('File not found');
   }
 }

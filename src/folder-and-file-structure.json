@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "initialPage": true,
       "title": "Home"
     },
     {
