@@ -1,18 +1,18 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { getFile } from "./GlobalProvider.server";
+import { getFile } from "./FileProvider.server";
 import {
   GlobalContextValues,
   GlobalProviderProps,
-} from "./GlobalProvider.types";
+} from "./FileProvider.types";
 
 import treeView from "../folder-and-file-structure.json" with { type: "json" };
 
-const GlobalContext = createContext({} as GlobalContextValues);
+const FilesContext = createContext({} as GlobalContextValues);
 
 const _filesContentCache = new Map();
 
-export const GlobalProvider = ({ children }: GlobalProviderProps) => {
+export const FilesProvider = ({ children }: GlobalProviderProps) => {
   const [openedFiles, _setOpenedFiles] = useState<Set<string>>(new Set());
   const [markdownContent, _setMarkdownContent] = useState<string>("");
   const [focusedFile, setFocusedFile] = useState<string | undefined>();
@@ -59,7 +59,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   };
 
   return (
-    <GlobalContext.Provider
+    <FilesContext.Provider
       value={{
         handleOpenFile,
         handleCloseFile,
@@ -70,12 +70,12 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
       }}
     >
       {children}
-    </GlobalContext.Provider>
+    </FilesContext.Provider>
   );
 };
 
-export const useGlobalContext = () => {
-  const _context = useContext(GlobalContext);
+export const useFilesContext = () => {
+  const _context = useContext(FilesContext);
 
   if (!Object.entries(_context).length) {
     throw new Error("useGlobalContext must be used within a GlobalProvider");

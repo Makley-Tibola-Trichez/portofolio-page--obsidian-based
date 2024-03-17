@@ -1,4 +1,4 @@
-import { GlobalProvider } from "../context/GlobalProvider";
+import { FilesProvider } from "../context/FileProvider";
 
 import "../styles/tailwind.css";
 export default function RootLayout({
@@ -7,7 +7,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <GlobalProvider>{children}</GlobalProvider>
+        <FilesProvider>{children}</FilesProvider>
       </body>
     </html>
   );

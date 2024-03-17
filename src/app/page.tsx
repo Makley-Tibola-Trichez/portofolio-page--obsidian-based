@@ -11,7 +11,7 @@ import {
 } from "../@/components/ui/resizable";
 import PageTab from "../components/PageTab/PageTab";
 import { FilesTree } from "../components/treeView/TreeView";
-import { useGlobalContext } from "../context/GlobalProvider";
+import { useFilesContext } from "../context/FileProvider";
 import {
   Tooltip,
   TooltipArrow,
@@ -28,7 +28,7 @@ export default function Home() {
     setFocusedFile,
     handleOpenFile,
     handleCloseFile,
-  } = useGlobalContext();
+  } = useFilesContext();
   return (
     <div className="bg-[#121212] text-[#b3b3b3] h-dvh">
       <ResizablePanelGroup direction="horizontal">
@@ -85,10 +85,3 @@ export default function Home() {
   );
 }
 
-/**
- * Aba selecionada : #1e1e1e
- * Aba não selecionada : #363636
- * Bordas: #363636
- * Fonte Não selecionada : #b3b3b3
- * Drawer: #262626
- */

@@ -44,6 +44,7 @@ export function FilesTree({
                 handleToggle(item.title);
                 return;
               }
+              console.log(item)
               onOpenFile?.(item.title);
             }}
           >
