@@ -1,0 +1,24 @@
+{
+  "path": "src/pages",
+  "name": "pages",
+  "children": [
+    {
+      "path": "Home",
+      "name": "Home"
+    },
+    {
+      "path": "TCC-1",
+      "name": "TCC-1"
+    },
+    {
+      "path": "testes",
+      "name": "testes",
+      "children": [
+        {
+          "path": "testes/Home",
+          "name": "Home"
+        }
+      ]
+    }
+  ]
+}

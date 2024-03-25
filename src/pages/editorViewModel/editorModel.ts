@@ -1,36 +1,39 @@
-"use client";
-import { createContext, useContext, useState } from "react";
-import { getFile } from "./FileProvider.server";
-import {
-  GlobalContextValues,
-  GlobalProviderProps,
-} from "./FileProvider.types";
-
-import treeView from "../folder-and-file-structure.json" with { type: "json" };
-
-const FilesContext = createContext({} as GlobalContextValues);
-
+import { useState } from "react";
+import treeView from "../../folder-and-file-structure.json" with {
+  type: "json",
+};
+import { useRouter } from "next/router";
 const _filesContentCache = new Map();
 
-export const FilesProvider = ({ children }: GlobalProviderProps) => {
+export const useEditorModel = () => {
   const [openedFiles, _setOpenedFiles] = useState<Set<string>>(new Set());
   const [markdownContent, _setMarkdownContent] = useState<string>("");
   const [focusedFile, setFocusedFile] = useState<string | undefined>();
 
+  const _router = useRouter();
   const _getFileContent = async (name: string): Promise<string> => {
     if (_filesContentCache.has(name)) {
       return _filesContentCache.get(name);
     }
 
-    return getFile(name).catch(() => "");
+    try {
+      _router.push(`/${name}`);
+      // const _file = await import(`../../markdown/${name}.mdx`);
+      // console.log("_file");
+      // return _file.toString();
+    } catch (error) {
+      return "";
+    }
   };
 
   const handleOpenFile = async (name: string) => {
     const _openedFiles = new Set(openedFiles.add(name));
-    const _fileContent = await _getFileContent(name);
+    // const _fileContent = await _getFileContent(name);
+    _router.push(`/${name}`);
 
+    // console.log(_fileContent);
     _setOpenedFiles(_openedFiles);
-    _setMarkdownContent(_fileContent);
+    // _setMarkdownContent(_fileContent);
     setFocusedFile(name);
   };
 
@@ -54,32 +57,16 @@ export const FilesProvider = ({ children }: GlobalProviderProps) => {
     const _fileContent = await _getFileContent(_nextFile);
     _setOpenedFiles(_openedFiles);
 
-    _setMarkdownContent(_fileContent);
+    // _setMarkdownContent(_fileContent);
     setFocusedFile(_nextFile);
   };
 
-  return (
-    <FilesContext.Provider
-      value={{
-        handleOpenFile,
-        handleCloseFile,
-        openedFiles,
-        markdownContent,
-        focusedFile,
-        setFocusedFile,
-      }}
-    >
-      {children}
-    </FilesContext.Provider>
-  );
-};
-
-export const useFilesContext = () => {
-  const _context = useContext(FilesContext);
-
-  if (!Object.entries(_context).length) {
-    throw new Error("useGlobalContext must be used within a GlobalProvider");
-  }
-
-  return _context;
+  return {
+    handleOpenFile,
+    handleCloseFile,
+    openedFiles,
+    markdownContent,
+    focusedFile,
+    setFocusedFile,
+  };
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { LucideProps, FolderOpen, FolderClosed, File } from 'lucide-react';
 
 type TreeViewIconProps = {

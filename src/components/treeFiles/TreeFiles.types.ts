@@ -1,12 +1,12 @@
 export type FilesTreeData = {
-  title: string;
-  fileName?: string;
+  path: string;
+  name: string;
   children?: FilesTreeData[];
 };
 
 export type FilesTreeProps = {
   onOpenFile?: (itemName: string) => void;
   data: FilesTreeData[];
-  style?: React.CSSProperties;
-  level?: number;
+  // style?: React.CSSProperties;
+  // level?: number;
 };

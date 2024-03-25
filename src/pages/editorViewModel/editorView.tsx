@@ -1,34 +1,31 @@
-"use client";
-import { Github, Search } from "lucide-react";
-
-import treeView from "../folder-and-file-structure.json" with { type: "json" };
-import Markdown from "react-markdown";
-import { Button } from "../@/components/ui/button";
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipArrow,
+} from "@radix-ui/react-tooltip";
+import { Search, Github } from "lucide-react";
+import { Button } from "../../@/components/ui/button";
 import {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
-} from "../@/components/ui/resizable";
-import PageTab from "../components/PageTab/PageTab";
-import { FilesTree } from "../components/treeView/TreeView";
-import { useFilesContext } from "../context/FileProvider";
-import {
-  Tooltip,
-  TooltipArrow,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../@/components/ui/tooltip";
+} from "../../@/components/ui/resizable";
+import PageTab from "../../components/PageTab/PageTab";
+import { FilesTree } from "../../components/treeFiles/TreeFiles";
+import { useEditorModel } from "./editorModel";
+import treeView from "../../data/mdx-tree.json" with { type: "json" };
 
-export default function Home() {
-  const {
-    focusedFile,
-    openedFiles,
-    markdownContent,
-    setFocusedFile,
-    handleOpenFile,
-    handleCloseFile,
-  } = useFilesContext();
+export const EditorView = ({
+  focusedFile,
+  openedFiles,
+  markdownContent,
+  setFocusedFile,
+  handleOpenFile,
+  handleCloseFile,
+  children,
+}: React.PropsWithChildren<ReturnType<typeof useEditorModel>>) => {
   return (
     <div className="bg-[#121212] text-[#b3b3b3] h-dvh">
       <ResizablePanelGroup direction="horizontal">
@@ -55,7 +52,7 @@ export default function Home() {
           </div>
 
           <div className="h-full bg-[#262626] p-4">
-            <FilesTree data={treeView.data} onOpenFile={handleOpenFile} />
+            <FilesTree data={treeView.children} onOpenFile={handleOpenFile} />
           </div>
         </ResizablePanel>
 
@@ -74,14 +71,9 @@ export default function Home() {
               </PageTab>
             );
           })}
-          {markdownContent !== null ? (
-            <div className="text-white bg-[#1e1e1e] h-full p-4">
-              <Markdown>{markdownContent}</Markdown>
-            </div>
-          ) : null}
+          {children}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
   );
-}
-
+};
