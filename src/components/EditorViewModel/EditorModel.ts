@@ -40,11 +40,15 @@ export const useEditorModel = () => {
     setFocusedFile(_nextFile);
   };
 
+  const accessGithub = () =>
+    window.open("https://github.com/Makley-Tibola-Trichez");
+
   return {
     handleOpenFile,
     handleCloseFile,
     setFocusedFile,
     openedFiles,
     focusedFile,
+    accessGithub,
   };
 };

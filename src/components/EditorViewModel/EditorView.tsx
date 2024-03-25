@@ -16,6 +16,7 @@ import PageTab from "../PageTab/PageTab";
 import { useEditorModel } from "./EditorModel";
 import treeView from "../../data/mdx-tree.json" with { type: "json" };
 import { TreeFilesViewModel } from "../TreeFilesViewModel/TreeFilesViewModel";
+import MDXLayout from "../MDXLayout";
 
 export const EditorView = ({
   focusedFile,
@@ -23,6 +24,7 @@ export const EditorView = ({
   setFocusedFile,
   handleOpenFile,
   handleCloseFile,
+  accessGithub,
   children,
 }: React.PropsWithChildren<ReturnType<typeof useEditorModel>>) => {
   return (
@@ -37,7 +39,11 @@ export const EditorView = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant={"transparent"} size="iconSm">
+                    <Button
+                      variant={"transparent"}
+                      size="iconSm"
+                      onClick={accessGithub}
+                    >
                       <Github size={18} />
                     </Button>
                   </TooltipTrigger>
@@ -73,7 +79,7 @@ export const EditorView = ({
               </PageTab>
             );
           })}
-          {children}
+          <MDXLayout>{children}</MDXLayout>
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

@@ -41,7 +41,7 @@ export default function PageTab({
               onClick={() => onClick?.(!isActive)}
               onKeyUp={() => onClick?.(!isActive)}
             >
-              <div className="max-w-40 truncate px-2">{children}</div>
+              <div className="max-w-40 truncate px-2 text-sm">{children}</div>
               <Button
                 asChild
                 size="iconXs"
