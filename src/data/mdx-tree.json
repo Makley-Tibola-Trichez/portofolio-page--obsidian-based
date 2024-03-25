@@ -11,11 +11,11 @@
       "name": "TCC-1"
     },
     {
-      "path": "testes",
-      "name": "testes",
+      "path": "teste",
+      "name": "teste",
       "children": [
         {
-          "path": "testes/Home",
+          "path": "teste/Home",
           "name": "Home"
         }
       ]

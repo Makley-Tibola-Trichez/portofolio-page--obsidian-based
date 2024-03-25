@@ -12,15 +12,14 @@ import {
   ResizablePanel,
   ResizableHandle,
 } from "../../@/components/ui/resizable";
-import PageTab from "../../components/PageTab/PageTab";
-import { FilesTree } from "../../components/treeFiles/TreeFiles";
-import { useEditorModel } from "./editorModel";
+import PageTab from "../PageTab/PageTab";
+import { useEditorModel } from "./EditorModel";
 import treeView from "../../data/mdx-tree.json" with { type: "json" };
+import { TreeFilesViewModel } from "../TreeFilesViewModel/TreeFilesViewModel";
 
 export const EditorView = ({
   focusedFile,
   openedFiles,
-  markdownContent,
   setFocusedFile,
   handleOpenFile,
   handleCloseFile,
@@ -52,7 +51,10 @@ export const EditorView = ({
           </div>
 
           <div className="h-full bg-[#262626] p-4">
-            <FilesTree data={treeView.children} onOpenFile={handleOpenFile} />
+            <TreeFilesViewModel
+              data={treeView.children}
+              onOpenFile={handleOpenFile}
+            />
           </div>
         </ResizablePanel>
 

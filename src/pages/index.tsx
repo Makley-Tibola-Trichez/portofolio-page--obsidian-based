@@ -1,4 +1,4 @@
-import { EditorViewModel } from "./editorViewModel/editorViewModel";
+import { EditorViewModel } from "../components/EditorViewModel/EditorViewModel";
 
 export default function Page() {
   return <></>;

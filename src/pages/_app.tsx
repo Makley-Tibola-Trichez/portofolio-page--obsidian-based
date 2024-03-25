@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 import "../styles/tailwind.css";
-import { EditorViewModel } from "./editorViewModel/editorViewModel";
+import { EditorViewModel } from "../components/EditorViewModel/EditorViewModel";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
